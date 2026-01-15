@@ -1,6 +1,6 @@
 # @dooz/ai-router
 
-> Multi-provider LLM router with smart routing and fallback support
+dooz-ai-router is a TypeScript library that provides a unified interface for routing LLM requests across multiple providers (OpenRouter, Ollama, and OpenAI-compatible APIs). It implements task-based model selection, automatic provider fallback chains, and streaming support. The library exports a configurable `LlmRouter` class that abstracts provider-specific API calls and can be instantiated from environment variables or explicit configuration.
 
 ---
 
