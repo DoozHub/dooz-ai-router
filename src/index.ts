@@ -42,3 +42,10 @@ export { LlmRouter, createRouter, createRouterFromEnv } from './router';
 
 // Providers (for direct use if needed)
 export { BaseProvider, OpenRouterProvider, OllamaProvider } from './providers';
+
+// Config Store
+export { configStore, type TaskRoute, type RouterConfig as TaskRouterConfig, type RequestLog } from './config';
+
+// Client SDK
+export { AiRouterClient, type ProviderInfo, type ModelsInfo, type CompletionRequest, type CompletionResponse, type RouteRequest } from './client';
+
