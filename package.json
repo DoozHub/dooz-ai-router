@@ -1,5 +1,5 @@
 {
-    "name": "@dooz/ai-router",
+    "name": "@doozhub/ai-router",
     "version": "0.1.0",
     "description": "Multi-provider LLM router with smart routing and fallback support",
     "type": "module",
@@ -39,5 +39,12 @@
         "dooz"
     ],
     "author": "DoozieSoft",
-    "license": "MIT"
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/DoozHub/dooz-ai-router.git"
+    },
+    "publishConfig": {
+        "registry": "https://npm.pkg.github.com"
+    }
 }
