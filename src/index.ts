@@ -49,3 +49,5 @@ export { configStore, type TaskRoute, type RouterConfig as TaskRouterConfig, typ
 // Client SDK
 export { AiRouterClient, type ProviderInfo, type ModelsInfo, type CompletionRequest, type CompletionResponse, type RouteRequest } from './client';
 
+// Rate Limiter
+export { RateLimiter, createRateLimiter, RateLimitError, type RateLimitConfig } from './rate-limiter';

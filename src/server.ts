@@ -10,11 +10,56 @@ import { cors } from 'hono/cors';
 import { createRouterFromEnv, createRouter, LlmRouter } from './router';
 import { configStore, generateLogId, type RequestLog } from './config';
 import type { LlmRequest, ProviderType, TaskType } from './types';
+import { createRateLimiter, RateLimitError } from './rate-limiter';
 
 const app = new Hono();
 
 // Enable CORS
 app.use('/*', cors());
+
+// Rate limiter instance (60 requests per minute)
+const rateLimiter = createRateLimiter({
+    maxRequests: 60,
+    windowMs: 60000,
+    perClient: true,
+});
+
+// Rate limiting middleware for AI endpoints
+app.use('/complete', async (c, next) => {
+    const clientId = c.req.header('X-Client-ID') || c.req.header('Authorization') || 'anonymous';
+
+    if (!rateLimiter.isAllowed(clientId)) {
+        const retryAfter = rateLimiter.getRetryAfter(clientId);
+        c.header('Retry-After', String(Math.ceil(retryAfter / 1000)));
+        c.header('X-RateLimit-Remaining', '0');
+        return c.json({
+            success: false,
+            error: 'Rate limit exceeded',
+            retry_after_ms: retryAfter,
+        }, 429);
+    }
+
+    c.header('X-RateLimit-Remaining', String(rateLimiter.getRemaining(clientId)));
+    await next();
+});
+
+app.use('/route', async (c, next) => {
+    const clientId = c.req.header('X-Client-ID') || c.req.header('Authorization') || 'anonymous';
+
+    if (!rateLimiter.isAllowed(clientId)) {
+        const retryAfter = rateLimiter.getRetryAfter(clientId);
+        c.header('Retry-After', String(Math.ceil(retryAfter / 1000)));
+        c.header('X-RateLimit-Remaining', '0');
+        return c.json({
+            success: false,
+            error: 'Rate limit exceeded',
+            retry_after_ms: retryAfter,
+        }, 429);
+    }
+
+    c.header('X-RateLimit-Remaining', String(rateLimiter.getRemaining(clientId)));
+    await next();
+});
 
 // Global router instance
 let router: LlmRouter | null = null;
