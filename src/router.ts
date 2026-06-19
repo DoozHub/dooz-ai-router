@@ -19,6 +19,9 @@ import { OpenRouterProvider } from './providers/openrouter';
 import { OllamaProvider } from './providers/ollama';
 import { emitUsageRecorded } from './cost-tracker.js';
 import { getRuntimeConfig } from './config.js';
+import { createLogger } from '@doozhub/sdk-logger';
+
+const log = createLogger('ai-router');
 
 /**
  * Create a provider instance from config
@@ -136,20 +139,20 @@ export class LlmRouter {
         // Try primary provider
         try {
             if (this.config.logging) {
-                console.log(`[ai-router] Trying ${primaryProvider.name}...`);
+                log.info(`Trying ${primaryProvider.name}`);
             }
 
             const response = await primaryProvider.complete(request);
 
             if (this.config.logging) {
-                console.log(`[ai-router] Success: ${response.model} (${response.latencyMs}ms)`);
+                log.info(`Success: ${response.model} (${response.latencyMs}ms)`);
             }
 
             await this.maybeEmitUsage(request, response);
             return response;
         } catch (error) {
             if (this.config.logging) {
-                console.warn(`[ai-router] ${primaryProvider.name} failed:`, error);
+                log.warn(`${primaryProvider.name} failed`, { error: error instanceof Error ? error.message : String(error) });
             }
 
             // Try fallback chain
@@ -161,19 +164,19 @@ export class LlmRouter {
 
                 try {
                     if (this.config.logging) {
-                        console.log(`[ai-router] Falling back to ${fallback.name}...`);
+                        log.info(`Falling back to ${fallback.name}`);
                     }
 
                     const response = await fallback.complete(request);
 
                     if (this.config.logging) {
-                        console.log(`[ai-router] Fallback success: ${response.model}`);
+                        log.info(`Fallback success: ${response.model}`);
                     }
 
                     return response;
                 } catch (fallbackError) {
                     if (this.config.logging) {
-                        console.warn(`[ai-router] ${fallback.name} failed:`, fallbackError);
+                        log.warn(`${fallback.name} failed`, { error: fallbackError instanceof Error ? fallbackError.message : String(fallbackError) });
                     }
                 }
             }
@@ -190,7 +193,7 @@ export class LlmRouter {
         const provider = this.selectProvider(request);
 
         if (this.config.logging) {
-            console.log(`[ai-router] Streaming via ${provider.name}...`);
+            log.info(`Streaming via ${provider.name}`);
         }
 
         yield* provider.stream(request);
