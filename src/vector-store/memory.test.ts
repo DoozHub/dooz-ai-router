@@ -45,7 +45,8 @@ describe("InMemoryVectorStore", () => {
     const d = doc("a", "t1", "alpha", v([1, 0]));
     await store.upsert(d);
     const got = await store.get("a");
-    expect(got).toEqual(d);
+    // Re-upsert increments version; first upsert lands at 1.
+    expect(got).toEqual({ ...d, version: 1 });
   });
 
   it("upsertMany writes all docs", async () => {

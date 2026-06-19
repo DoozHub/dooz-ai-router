@@ -23,11 +23,16 @@ export class InMemoryVectorStore implements VectorStore {
   private docs = new Map<string, Document>();
 
   async upsert(doc: Document): Promise<void> {
-    this.docs.set(doc.id, doc);
+    const existing = this.docs.get(doc.id);
+    const incoming = { ...doc, version: (existing?.version ?? doc.version ?? 0) + 1 };
+    this.docs.set(incoming.id, incoming);
   }
 
   async upsertMany(docs: Document[]): Promise<void> {
-    for (const d of docs) this.docs.set(d.id, d);
+    for (const d of docs) {
+      const existing = this.docs.get(d.id);
+      this.docs.set(d.id, { ...d, version: (existing?.version ?? d.version ?? 0) + 1 });
+    }
   }
 
   async search(query: SearchQuery): Promise<SearchResult[]> {

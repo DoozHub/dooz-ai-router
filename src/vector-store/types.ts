@@ -27,6 +27,12 @@ export interface Document {
   tenantId: string;
   /** ISO timestamp of index time. */
   indexedAt: string;
+  /**
+   * Monotonic version. Bumped on every re-upsert so callers can detect
+   * re-indexing events and so vector stores can use it for optimistic
+   * concurrency. Defaults to 1 when a caller does not supply it.
+   */
+  version?: number;
 }
 
 export interface SearchQuery {
