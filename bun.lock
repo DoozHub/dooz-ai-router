@@ -5,8 +5,8 @@
     "": {
       "name": "@dooz/ai-router",
       "dependencies": {
-        "@doozhub/sdk-bridge": "file:../lib-sdk-bridge",
-        "hono": "4.12.26",
+        "@doozhub/sdk-core": "file:../lib-sdk-core",
+        "hono": "^4.12.26",
         "nanoid": "^3.3.7",
         "zod": "^3.23.0",
       },
@@ -21,7 +21,7 @@
     },
   },
   "packages": {
-    "@doozhub/sdk-bridge": ["@doozhub/sdk-bridge@file:../lib-sdk-bridge", { "devDependencies": { "typescript": "^5.8.3", "vitest": "^4.1.7" } }],
+    "@doozhub/sdk-core": ["@doozhub/sdk-core@file:../lib-sdk-core", { "devDependencies": { "hono": "^4.12.26", "typescript": "^5.8.3", "vitest": "^4.1.7" }, "peerDependencies": { "hono": "^4.0.0" }, "optionalPeers": ["hono"] }],
 
     "@emnapi/core": ["@emnapi/core@1.10.0", "", { "dependencies": { "@emnapi/wasi-threads": "1.2.1", "tslib": "^2.4.0" } }, "sha512-yq6OkJ4p82CAfPl0u9mQebQHKPJkY7WrIuk205cTYnYe+k2Z8YBh11FrbRG/H6ihirqcacOgl2BIO8oyMQLeXw=="],
 

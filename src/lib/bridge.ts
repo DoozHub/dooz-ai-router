@@ -1,5 +1,5 @@
-import { BridgeClient, Topics } from "@doozhub/sdk-bridge"
-import type { BridgeEvent, BridgeEventHandler } from "@doozhub/sdk-bridge"
+import { BridgeClient, Topics } from "@doozhub/sdk-core"
+import type { BridgeEvent, BridgeEventHandler } from "@doozhub/sdk-core"
 
 const BRIDGE_URL = process.env.BRIDGE_URL || "http://localhost:3001"
 export const BRIDGE_ENABLED = process.env.BRIDGE_ENABLED !== "false"

@@ -25,7 +25,7 @@
     "test:watch": "vitest"
   },
   "dependencies": {
-    "@doozhub/sdk-bridge": "file:../lib-sdk-bridge",
+    "@doozhub/sdk-core": "file:../lib-sdk-core",
     "hono": "^4.12.26",
     "nanoid": "^3.3.7",
     "zod": "^3.23.0"
