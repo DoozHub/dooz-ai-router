@@ -6,6 +6,7 @@
       "name": "@dooz/ai-router",
       "dependencies": {
         "@doozhub/sdk-bridge": "file:../lib-sdk-bridge",
+        "@doozhub/sdk-core": "file:../lib-sdk-core",
         "@doozhub/sdk-logger": "file:../lib-sdk-logger",
         "hono": "^4.12.26",
         "nanoid": "^3.3.7",
@@ -23,6 +24,8 @@
   },
   "packages": {
     "@doozhub/sdk-bridge": ["@doozhub/sdk-bridge@file:../lib-sdk-bridge", { "devDependencies": { "typescript": "^5.8.3", "vitest": "^4.1.7" } }],
+
+    "@doozhub/sdk-core": ["@doozhub/sdk-core@file:../lib-sdk-core", { "dependencies": { "@doozhub/sdk-auth": "file:../lib-sdk-auth", "@doozhub/sdk-bridge": "file:../lib-sdk-bridge", "@doozhub/sdk-logger": "file:../lib-sdk-logger" }, "devDependencies": { "typescript": "^5.8.3", "vitest": "^4.1.7" } }],
 
     "@doozhub/sdk-logger": ["@doozhub/sdk-logger@file:../lib-sdk-logger", { "dependencies": { "hono": "^4.11.4" }, "devDependencies": { "@types/node": "^22.0.0", "typescript": "^5.8.3", "vitest": "^4.1.7" } }],
 
@@ -217,6 +220,12 @@
     "xtend": ["xtend@4.0.2", "", {}, "sha512-LKYU1iAXJXUgAXn9URjiu+MWhyUXHsvfp7mcuYm9dSUKK0/CjtrUwFAxD82/mCWbtLsGjFIad0wIsod4zrTAEQ=="],
 
     "zod": ["zod@3.25.76", "", {}, "sha512-gzUt/qt81nXsFGKIFcC3YnfEAx5NkunCfnDlvuBSSFS02bcXu4Lmea0AFIUwbLWxWPx3d9p8S5QoaujKcNQxcQ=="],
+
+    "@doozhub/sdk-core/@doozhub/sdk-auth": ["@doozhub/sdk-auth@file:../lib-sdk-auth", {}],
+
+    "@doozhub/sdk-core/@doozhub/sdk-bridge": ["@doozhub/sdk-bridge@file:../lib-sdk-bridge", {}],
+
+    "@doozhub/sdk-core/@doozhub/sdk-logger": ["@doozhub/sdk-logger@file:../lib-sdk-logger", {}],
 
     "bun-types/@types/node": ["@types/node@25.0.8", "", { "dependencies": { "undici-types": "~7.16.0" } }, "sha512-powIePYMmC3ibL0UJ2i2s0WIbq6cg6UyVFQxSCpaPxxzAaziRfimGivjdF943sSGV6RADVbk0Nvlm5P/FB44Zg=="],
 

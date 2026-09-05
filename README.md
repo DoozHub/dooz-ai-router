@@ -3,13 +3,19 @@
 [![CI](https://github.com/DoozHub/dooz-ecosystem/actions/workflows/dooz-ai-router-ci.yml/badge.svg)](https://github.com/DoozHub/dooz-ecosystem/actions/workflows/dooz-ai-router-ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
+> ### ⚠️ Honest status (2026-08-07)
+> - Providers: **2 native** (OpenRouter, Ollama); any additional names are OpenRouter model aliases, not separate integrations.
+> - "Smart routing" selects a model hint only — it never fails over between providers today.
+> - RAG defaults to `MockEmbeddings` + in-memory vector store unless explicitly configured otherwise.
+> - HTTP server boots on port **5181**; core↔router contract alignment is tracked separately (see plans/remediation-plan-2026-08-07.md W2-2).
+
 dooz-ai-router is a TypeScript library that provides a unified interface for routing LLM requests across multiple providers (OpenRouter, Ollama, and OpenAI-compatible APIs). It implements task-based model selection, automatic provider fallback chains, and streaming support. The library exports a configurable `LlmRouter` class that abstracts provider-specific API calls and can be instantiated from environment variables or explicit configuration.
 
 ---
 
 ## Features
 
-- 🔀 **Multi-provider support**: OpenRouter, Ollama, OpenAI, Anthropic, Gemini
+- 🔀 **Multi-provider support**: OpenRouter, Ollama, OpenAI, Anthropic, Gemini (see Honest status — 2 native)
 - 🧠 **Smart routing**: Automatic model selection based on task type
 - ⛓️ **Fallback chain**: Automatic failover to backup providers
 - 🔄 **Streaming support**: Real-time response streaming

@@ -1,20 +1,45 @@
 name: CI
 
+# This repo is a standalone checkout (github.com/DoozHub/lib-ai-router), so the
+# code lives at the repository root. The previous path filters watched
+# 'dooz-ai-router/**', a directory that does not exist, so CI never triggered
+# (audit gap G12). It also called a reusable workflow at
+# .github/workflows/templates/bun-ci.yml, which does not exist and is in a
+# subdirectory GitHub does not support for reusable workflows.
+
 on:
   push:
     branches: [ main, develop ]
-    paths:
-      - 'dooz-ai-router/**'
-      - '.github/workflows/dooz-ai-router-ci.yml'
   pull_request:
     branches: [ main, develop ]
-    paths:
-      - 'dooz-ai-router/**'
 
 jobs:
-  ci:
-    uses: ./.github/workflows/templates/bun-ci.yml
-    with:
-      working-directory: lib-ai-router
-      run-tests: true
-      test-command: 'npx vitest run'
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      # The @doozhub/sdk-core dependency is a file: link to a sibling checkout,
+      # so check out both repos side by side.
+      - uses: actions/checkout@v4
+        with:
+          path: lib-ai-router
+
+      - uses: actions/checkout@v4
+        with:
+          repository: DoozHub/lib-sdk-core
+          path: lib-sdk-core
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        working-directory: lib-ai-router
+        run: bun install
+
+      - name: Verify package entrypoint imports
+        working-directory: lib-ai-router
+        run: bun -e "await import('./src/index.ts'); console.log('entrypoint OK')"
+
+      - name: Run tests
+        working-directory: lib-ai-router
+        run: bun run test
