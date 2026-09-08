@@ -18,13 +18,13 @@ describe("OllamaEmbeddings", () => {
         status: 200,
         headers: { "Content-Type": "application/json" },
       });
-    }) as typeof fetch;
+    }) as unknown as typeof fetch;
   }
 
   function mockFetchError(status: number, text: string) {
     globalThis.fetch = (async () => {
       return new Response(text, { status });
-    }) as typeof fetch;
+    }) as unknown as typeof fetch;
   }
 
   it("issues one request per input and returns parallel vectors", async () => {
@@ -43,7 +43,7 @@ describe("OllamaEmbeddings", () => {
     globalThis.fetch = (async (url: string | URL | Request, init?: RequestInit) => {
       captured = JSON.parse(init!.body as string);
       return new Response(JSON.stringify({ embedding: [0.1] }), { status: 200 });
-    }) as typeof fetch;
+    }) as unknown as typeof fetch;
     const e = new OllamaEmbeddings({ baseUrl: "http://x" });
     await e.embed({ input: "x", model: "mxbai-embed-large" });
     expect(captured.model).toBe("mxbai-embed-large");

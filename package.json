@@ -1,5 +1,5 @@
 {
-  "name": "@dooz/ai-router",
+  "name": "@doozhub/ai-router",
   "version": "1.0.0",
   "description": "Multi-provider LLM router with smart routing and fallback support",
   "type": "module",
